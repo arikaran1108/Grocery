@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
-import { products, categories } from "@/data/products";
+import { categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/hooks/useCart";
 
 const Products = () => {
+  const { products } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("category") || "all";
   const [search, setSearch] = useState("");

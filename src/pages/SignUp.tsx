@@ -3,13 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail, Lock, User, Phone, Loader2 } from "lucide-react";
+import { ArrowRight, Mail, Lock, User, Phone, Loader2, Shield } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import type { UserRole } from "@/context/CartContext";
 import { toast } from "sonner";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { signUp } = useCart();
+  const [role, setRole] = useState<UserRole>("customer");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -70,12 +72,17 @@ const SignUp = () => {
         formData.fullName,
         formData.email,
         formData.phone,
-        formData.password
+        formData.password,
+        role
       );
       
       if (success) {
-        toast.success("Account created successfully!");
-        navigate("/");
+        toast.success(`Account created as ${role === "admin" ? "Admin" : "Customer"}!`);
+        if (role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");
@@ -90,15 +97,57 @@ const SignUp = () => {
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-4">
-            <span className="text-5xl">🥬</span>
+            <img
+              src="/logo.jpg"
+              alt="AK Devil Grocery Shop Logo"
+              className="w-20 h-20 rounded-full object-cover border-2 border-border shadow-lg"
+            />
           </div>
           <h1 className="font-display text-3xl font-bold text-foreground">Create Account</h1>
-          <p className="text-muted-foreground mt-2">Join FreshCart for fresh groceries</p>
+          <p className="text-muted-foreground mt-2">Join AK Devil Grocery Shop with your preferred access</p>
         </div>
 
         {/* Sign Up Form */}
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-8 space-y-4 shadow-lg max-h-[80vh] overflow-y-auto">
-        {/* Full Name Field */}
+        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-8 space-y-4 shadow-lg max-h-[85vh] overflow-y-auto">
+          {/* Role Selection */}
+          <div className="space-y-2">
+            <Label className="text-sm font-semibold">Select Account Access Level</Label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setRole("customer")}
+                disabled={isLoading}
+                className={`p-3 rounded-lg border text-left transition-all ${
+                  role === "customer"
+                    ? "bg-primary/10 border-primary text-primary ring-1 ring-primary shadow-sm"
+                    : "border-border hover:bg-muted text-muted-foreground"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-sm">
+                  <User className="w-4 h-4" /> Customer
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1">Shop, cart & live GPS order tracking</p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRole("admin")}
+                disabled={isLoading}
+                className={`p-3 rounded-lg border text-left transition-all ${
+                  role === "admin"
+                    ? "bg-amber-500/10 border-amber-500 text-amber-600 dark:text-amber-400 ring-1 ring-amber-500 shadow-sm"
+                    : "border-border hover:bg-muted text-muted-foreground"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-sm">
+                  <Shield className="w-4 h-4" /> Store Admin
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1">Orders, catalog, dispatch & analytics</p>
+              </button>
+            </div>
+          </div>
+
+          {/* Full Name Field */}
           <div className="space-y-2">
             <Label htmlFor="fullName" className="text-sm font-semibold">
               Full Name

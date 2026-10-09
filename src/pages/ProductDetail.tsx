@@ -1,5 +1,4 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { products } from "@/data/products";
 import { useCart } from "@/hooks/useCart";
 import { ArrowLeft, Plus, Minus, Star, ShoppingCart, ShoppingBag } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
@@ -8,8 +7,8 @@ import { toast } from "sonner";
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { products, items, addToCart, updateQuantity, buyNow } = useCart();
   const product = products.find((p) => p.id === id);
-  const { items, addToCart, updateQuantity, buyNow } = useCart();
 
   if (!product) {
     return (

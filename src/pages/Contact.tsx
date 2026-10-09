@@ -11,9 +11,9 @@ const Contact = () => (
         <p className="text-muted-foreground mb-8">Have a question or feedback? We'd love to hear from you.</p>
         <div className="space-y-6">
           {[
-            { icon: Mail, label: "Email", value: "hello@freshcart.com" },
-            { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
-            { icon: MapPin, label: "Address", value: "123 Fresh Street, New York, NY 10001" },
+            { icon: Mail, label: "Email", value: "arikaran1108@gmail.com" },
+            { icon: Phone, label: "Phone", value: "+91 93457 45016" },
+            { icon: MapPin, label: "Address", value: "AK Devil Grocery Shop, 32 Egmore, Chennai" },
           ].map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shrink-0">

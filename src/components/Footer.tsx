@@ -6,11 +6,24 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">🥬</span>
-              <span className="font-display text-xl font-bold">FreshCart</span>
+            <div className="flex items-center gap-3 mb-4">
+              <img
+                src="/logo.jpg"
+                alt="AK Devil Grocery Shop"
+                className="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md"
+              />
+              <div>
+                <span className="font-display text-xl font-black tracking-wider text-white block">
+                  AK DEVIL
+                </span>
+                <span className="text-xs uppercase font-bold tracking-widest text-emerald-400 block">
+                  Grocery Shop
+                </span>
+              </div>
             </div>
-            <p className="text-sm opacity-70">Fresh groceries delivered to your doorstep in under 30 minutes.</p>
+            <p className="text-sm opacity-70">
+              Good Food • Better Life. Fresh groceries and daily essentials delivered to your doorstep.
+            </p>
           </div>
           <div>
             <h4 className="font-display font-semibold mb-4">Quick Links</h4>
@@ -35,12 +48,12 @@ const Footer = () => {
             <ul className="space-y-2 text-sm opacity-70">
               <li>📧 arikaran1108@gmail.com</li>
               <li>📞 9345745016</li>
-              <li>📍 Ak Grocery Store, 32 Egmore, Chennai</li>
+              <li>📍 AK Devil Grocery Shop, 32 Egmore, Chennai</li>
             </ul>
           </div>
         </div>
         <div className="border-t border-background/20 mt-8 pt-8 text-center text-sm opacity-50">
-          © 2026 FreshCart. All rights reserved.
+          © 2026 AK Devil Grocery Shop. All rights reserved.
         </div>
       </div>
     </footer>

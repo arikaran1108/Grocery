@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Truck, Clock, Shield } from "lucide-react";
 import heroImage from "@/assets/hero-groceries.jpg";
-import { categories, products } from "@/data/products";
+import { categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
+import { useCart } from "@/hooks/useCart";
 
 const Index = () => {
+  const { products } = useCart();
   const featuredProducts = products.filter((p) => p.originalPrice).concat(products.slice(0, 4)).slice(0, 8);
 
   return (
@@ -17,6 +19,10 @@ const Index = () => {
         </div>
         <div className="relative container mx-auto px-4 py-24 md:py-36">
           <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-semibold mb-5 shadow-sm">
+              <img src="/logo.jpg" alt="AK Devil" className="w-5 h-5 rounded-full object-cover" />
+              <span>AK DEVIL GROCERY SHOP • Good Food • Better Life</span>
+            </div>
             <h1 className="font-display text-4xl md:text-6xl font-bold text-background mb-4 leading-tight">
               Fresh Groceries,<br />Delivered <span className="text-secondary">Fast</span>
             </h1>
@@ -90,7 +96,7 @@ const Index = () => {
       <section className="container mx-auto px-4 pb-16">
         <div className="gradient-hero rounded-2xl p-8 md:p-12 text-primary-foreground text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Get 20% Off Your First Order</h2>
-          <p className="opacity-90 mb-6 max-w-md mx-auto">Sign up today and enjoy fresh groceries at unbeatable prices.</p>
+          <p className="opacity-90 mb-6 max-w-md mx-auto">Sign up today and enjoy fresh groceries from AK Devil Grocery Shop at unbeatable prices.</p>
           <Link
             to="/products"
             className="inline-flex items-center gap-2 bg-card text-foreground px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"

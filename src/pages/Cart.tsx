@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
-import { Minus, Plus, Trash2, ArrowRight, ShoppingCart, Package, Clock, MapPin, X, AlertCircle } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowRight, ShoppingCart, Package, Clock, MapPin, X, AlertCircle, Navigation } from "lucide-react";
 import TrackingModal from "@/components/TrackingModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,21 +15,30 @@ import {
 
 const Cart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { items, updateQuantity, removeFromCart, totalPrice, orderHistory, updateOrderStatus, cancelOrder } = useCart();
-  const [selectedOrder, setSelectedOrder] = useState<typeof orderHistory[0] | null>(null);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
   const [cancelConfirmId, setCancelConfirmId] = useState<string | null>(null);
 
+  const selectedOrder = orderHistory.find((o) => o.id === selectedOrderId) || null;
+
+  // Auto-open live tracking if redirected from checkout with an order id
+  useEffect(() => {
+    if (location.state?.trackOrderId) {
+      setSelectedOrderId(location.state.trackOrderId);
+      setIsTrackingOpen(true);
+    }
+  }, [location.state]);
+
   const handleTrackOrder = (order: typeof orderHistory[0]) => {
-    setSelectedOrder(order);
+    setSelectedOrderId(order.id);
     setIsTrackingOpen(true);
   };
 
   const handleUpdateStatus = (status: "Processing" | "Shipped" | "Delivered", location: string) => {
-    if (selectedOrder) {
-      updateOrderStatus(selectedOrder.id, status, location);
-      // Update the selected order locally
-      setSelectedOrder({ ...selectedOrder, status, location });
+    if (selectedOrderId) {
+      updateOrderStatus(selectedOrderId, status, location);
     }
   };
 
@@ -131,7 +140,13 @@ const Cart = () => {
                     <span className="font-semibold text-foreground text-sm">{order.id}</span>
                     <span className="text-xs text-muted-foreground ml-3">{order.date}</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
+                    {order.status !== "Delivered" && !order.isCancelled && (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping inline-block" />
+                        Live GPS Active
+                      </span>
+                    )}
                     <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
                       order.status === "Delivered" ? "bg-primary/10 text-primary" :
                       order.status === "Shipped" ? "bg-secondary/20 text-secondary-foreground" :
@@ -151,9 +166,9 @@ const Cart = () => {
                     {order.status !== "Cancelled" && (
                       <button
                         onClick={() => handleTrackOrder(order)}
-                        className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                       >
-                        <MapPin className="w-3 h-3" /> Track
+                        <Navigation className="w-3 h-3" /> Live Track
                       </button>
                     )}
                   </div>
@@ -174,6 +189,11 @@ const Cart = () => {
                   <div>
                     <span className="text-sm text-muted-foreground">Total</span>
                     <span className="font-bold text-foreground block">₹{order.totalPrice.toFixed(2)}</span>
+                    {order.paymentMethod && (
+                      <span className="text-[11px] font-semibold text-primary block mt-0.5">
+                        {order.paymentMethod === "Online UPI" ? "💳 Paid via UPI" : "💵 Direct Pay (COD)"}
+                      </span>
+                    )}
                   </div>
                   {order.location && (
                     <div className="text-right">
@@ -195,12 +215,12 @@ const Cart = () => {
           isOpen={isTrackingOpen}
           onClose={() => {
             setIsTrackingOpen(false);
-            setSelectedOrder(null);
+            setSelectedOrderId(null);
           }}
           onUpdateStatus={handleUpdateStatus}
           onCloseModal={() => {
             setIsTrackingOpen(false);
-            setSelectedOrder(null);
+            setSelectedOrderId(null);
           }}
         />
       )}
