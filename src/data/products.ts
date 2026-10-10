@@ -8,7 +8,12 @@ export interface Product {
   unit: string;
   description: string;
   rating: number;
-  inStock: boolean;
+  stock?: number;
+  lowStockThreshold?: number;
+  expiryDate?: string;
+  isNearExpiry?: boolean;
+  expiryDiscountPercent?: number;
+  daysUntilExpiry?: number;
 }
 
 export const categories = [
@@ -59,6 +64,7 @@ export const products: Product[] = [
     description: "Creamy, nutrient-dense Hass avocados ideal for toast, smoothies, and guacamole.",
     rating: 4.9,
     inStock: true,
+    stock: 3,
   },
   {
     id: "4",
@@ -71,6 +77,11 @@ export const products: Product[] = [
     description: "Vibrant red Mahabaleshwar strawberries with natural sweetness and aroma.",
     rating: 4.8,
     inStock: true,
+    stock: 18,
+    isNearExpiry: true,
+    expiryDiscountPercent: 30,
+    daysUntilExpiry: 2,
+    expiryDate: "12 Oct 2026",
   },
   {
     id: "5",
@@ -83,6 +94,7 @@ export const products: Product[] = [
     description: "King of mangoes! Sweet, pulpy, and aromatic GI-tagged authentic Alphonso mangoes.",
     rating: 5.0,
     inStock: true,
+    stock: 25,
   },
   {
     id: "6",
@@ -95,6 +107,7 @@ export const products: Product[] = [
     description: "Plump ruby-red arils bursting with antioxidants and rich natural flavor.",
     rating: 4.6,
     inStock: true,
+    stock: 14,
   },
   {
     id: "7",
@@ -106,7 +119,8 @@ export const products: Product[] = [
     unit: "3 pcs",
     description: "Tangy-sweet Zespri green kiwifruit rich in Vitamin C and fiber.",
     rating: 4.5,
-    inStock: true,
+    inStock: false,
+    stock: 0,
   },
   {
     id: "8",
@@ -191,6 +205,10 @@ export const products: Product[] = [
     description: "Tender, pre-washed baby spinach leaves rich in iron and vital vitamins.",
     rating: 4.7,
     inStock: true,
+    isNearExpiry: true,
+    expiryDiscountPercent: 40,
+    daysUntilExpiry: 1,
+    expiryDate: "11 Oct 2026",
   },
   {
     id: "15",
@@ -319,6 +337,10 @@ export const products: Product[] = [
     description: "Pure, wholesome pasteurised toned milk with extended shelf-life.",
     rating: 4.7,
     inStock: true,
+    isNearExpiry: true,
+    expiryDiscountPercent: 35,
+    daysUntilExpiry: 2,
+    expiryDate: "12 Oct 2026",
   },
   {
     id: "26",
@@ -426,6 +448,10 @@ export const products: Product[] = [
     description: "High-fiber brown bread packed with flaxseeds, sunflower seeds, and whole oats.",
     rating: 4.7,
     inStock: true,
+    isNearExpiry: true,
+    expiryDiscountPercent: 25,
+    daysUntilExpiry: 2,
+    expiryDate: "12 Oct 2026",
   },
   {
     id: "35",

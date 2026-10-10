@@ -303,10 +303,10 @@ const TrackingModal = ({ order, isOpen, onClose, onUpdateStatus }: TrackingModal
                         isCurrent ? "text-primary font-bold" : isPassed ? "text-foreground" : "text-muted-foreground"
                       }`}
                     >
-                      {idx === 0 && "Store"}
-                      {idx === 1 && "Hub"}
-                      {idx === 2 && "Rider"}
-                      {idx === 3 && "Home"}
+                      {idx === 0 && "1. Placed"}
+                      {idx === 1 && "2. Packed"}
+                      {idx === 2 && "3. Shipped"}
+                      {idx === 3 && "4. Delivered"}
                     </span>
                   </div>
                 );
